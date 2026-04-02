@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>テストページ</title>
+
+  <!-- フォント -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+
+      background-image: url("image.jpg");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      z-index: -1;
+    }
+
+    .hero, .section {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* 🔥 グリッチテキスト */
+    .glitch {
+      position: relative;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 64px;
+      color: #ff2b2b;
+      letter-spacing: 4px;
+
+      text-shadow:
+        0 0 5px #ff2b2b,
+        0 0 10px #ff2b2b,
+        0 0 20px #ff0000,
+        0 0 40px #ff0000;
+
+      animation: glow 2s infinite alternate;
+    }
+
+    /* 擬似要素でズレを作る */
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    /* 赤ズレ */
+    .glitch::before {
+      color: #ff0000;
+      animation: glitchTop 1s infinite linear alternate-reverse;
+    }
+
+    /* 青ズレ */
+    .glitch::after {
+      color: #00ffff;
+      animation: glitchBottom 1s infinite linear alternate-reverse;
+    }
+
+    /* グリッチアニメ */
+    @keyframes glitchTop {
+      0% { transform: translate(0); }
+      20% { transform: translate(-2px, -2px); }
+      40% { transform: translate(-2px, 2px); }
+      60% { transform: translate(2px, -1px); }
+      80% { transform: translate(1px, 2px); }
+      100% { transform: translate(0); }
+    }
+
+    @keyframes glitchBottom {
+      0% { transform: translate(0); }
+      20% { transform: translate(2px, 2px); }
+      40% { transform: translate(2px, -2px); }
+      60% { transform: translate(-2px, 1px); }
+      80% { transform: translate(-1px, -2px); }
+      100% { transform: translate(0); }
+    }
+
+    /* ネオン */
+    @keyframes glow {
+      from {
+        text-shadow:
+          0 0 5px #ff2b2b,
+          0 0 10px #ff2b2b;
+      }
+      to {
+        text-shadow:
+          0 0 10px #ff2b2b,
+          0 0 30px #ff0000,
+          0 0 60px #ff0000;
+      }
+    }
+
+    /* 下の文字 */
+    h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 40px;
+      color: #ff2b2b;
+
+      text-shadow:
+        0 0 5px #ff2b2b,
+        0 0 10px #ff2b2b,
+        0 0 20px #ff0000;
+
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 1s ease;
+    }
+
+    .show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- 上 -->
+  <div class="hero">
+    <h1 class="glitch" data-text="テスト">テスト</h1>
+  </div>
+
+  <!-- 下 -->
+  <div class="section">
+    <h2 id="fadeText">4月3日用</h2>
+  </div>
+
+  <script>
+    const target = document.getElementById("fadeText");
+
+    window.addEventListener("scroll", () => {
+      const rect = target.getBoundingClientRect();
+
+      if (rect.top < window.innerHeight - 100) {
+        target.classList.add("show");
+      }
+    });
+  </script>
+
+</body>
+</html>
